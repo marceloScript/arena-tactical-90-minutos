@@ -1,10 +1,9 @@
-// src/App.tsx - VERSÃO CORRIGIDA
+// src/App.tsx - VERSÃO FINAL CORRIGIDA
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import HomePage from './components/HomePage'
-import Field3D from './components/Field3D'
+import MatchTracker from './components/MatchTracker' // ✅ Import correto
 import ChampionshipSystem from './components/ChampionshipSystem'
-import LivesSystem from './components/LivesSystem'
 import PremiumFeatures from './components/PremiumFeatures'
 import AuthSystem from './components/AuthSystem'
 import Layout from './components/Layout'
@@ -15,16 +14,10 @@ import QuizSession from './components/QuizSession'
 import QuizResults from './components/QuizResults'
 import { Toaster } from 'react-hot-toast'
 
-// Wrapper para evitar recarregamento de página e usar a navegação do React Router
+// Wrapper para AuthSystem
 const AuthSystemWrapper = () => {
   const navigate = useNavigate();
-  return <AuthSystem onBack={() => navigate(-1)} />; // Navega para a página anterior
-};
-
-// Wrapper para PremiumFeatures com navegação para home
-const PremiumFeaturesWrapper = () => {
-  const navigate = useNavigate();
-  return <PremiumFeatures onBack={() => navigate('/')} />; // Navega para a home
+  return <AuthSystem onBack={() => navigate(-1)} />;
 };
 
 function App() {
@@ -33,12 +26,9 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/simulator" element={<Field3D />} />
+          <Route path="/simulator" element={<MatchTracker />} />
           
-          {/* ROTAS CORRIGIDAS - Usando navegação SPA sem recarregar a página */}
           <Route path="/auth" element={<AuthSystemWrapper />} />
-          
-          {/* As rotas abaixo podem ser placeholders ou páginas a serem desenvolvidas */}
           <Route path="/championships" element={<ChampionshipSystem onBack={() => {}} />} />
           <Route path="/quiz" element={<Navigate to="/quiz-selection" replace />} />
           <Route path="/premium" element={<PremiumFeatures onBack={() => {}} />} />
@@ -51,7 +41,6 @@ function App() {
           <Route path="/premium/cancelado" element={<PremiumPage />} />
         </Routes>
       </Layout>
-      {/* Adiciona o container para as notificações em toda a aplicação */}
       <Toaster position="top-right" />
     </Router>
   )
